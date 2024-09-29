@@ -1,0 +1,25 @@
+from Crypto.Hash import MD5 
+def file_check(filename): 
+    hash1 = MD5.new() 
+    with open(filename, 'rb') as open_file: 
+        content = open_file.read() 
+        hash1.update(content) 
+    print(hash1.hexdigest()) 
+ 
+def pass_check(pw): 
+    hash1 = MD5.new(data=pw.encode('utf-8')) 
+    print("Your MD5 password is", hash1.hexdigest()) 
+ 
+print("__MD5__") 
+print("1. File Check \n2. Password Check") 
+choice = int(input("Please enter your choice: ")) 
+if choice == 1: 
+    print("File Check") 
+    fn = "file1.txt" 
+    file_check(fn) 
+elif choice == 2: 
+    print("Password Check") 
+    pw = input("Enter a password: ") 
+    pass_check(pw) 
+else: 
+    print("Wrong Choice")

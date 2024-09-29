@@ -1,0 +1,15 @@
+import aes 
+pt = input("Enter plain Text: ").encode('utf-8') 
+masterkey = input("Enter Key: ").encode('utf-8') 
+# Convert masterkey from bytes to integer 
+masterkey = int.from_bytes(masterkey, byteorder='big') 
+pt = int.from_bytes(pt, byteorder='big') 
+cipher = aes.aes(masterkey, 128) 
+ct = cipher.enc_once(pt) 
+print("ct =", ct) 
+print("Encrypted text is", 
+hex(aes.utils.arr8bit2int(ct))[2:].zfill(32))  
+pr = cipher.dec_once(ct) 
+print("pr =", pr) 
+print("Decrypted text is", 
+hex(aes.utils.arr8bit2int(pr))[2:].zfill(32))

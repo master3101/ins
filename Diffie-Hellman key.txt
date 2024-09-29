@@ -1,0 +1,29 @@
+from sympy import isprime, primitive_root
+
+def proot(p):
+    if isprime(p):
+        return primitive_root(p)
+    else:
+        print("Input number must be prime")
+        return None
+
+p = int(input("Enter prime number: "))
+pr = proot(p)
+
+if pr is not None:
+    xa = int(input("Enter first random num less than P: "))
+    xb = int(input("Enter second random num less than P: "))
+    
+    # Calculate public keys
+    ya = pr**xa % p
+    yb = pr**xb % p
+    
+    # Calculate shared secret keys
+    key_A = yb**xa % p
+    key_B = ya**xb % p
+    
+    print(f"Primitive root of {p}: {pr}")
+    print(f"Key 1 = {key_A}")
+    print(f"Key 2 = {key_B}")
+else:
+    print("Please enter a valid prime number.")

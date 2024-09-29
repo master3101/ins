@@ -1,0 +1,18 @@
+from Crypto.Cipher import DES
+from Crypto.Util.Padding import pad, unpad
+
+pt = input("Enter plain text: ").encode('utf-8')
+key = input("Enter 8-byte key (exactly 8 characters): ").encode('utf-8')
+
+if len(key) != 8:
+    print("Error: Key must be exactly 8 bytes long!")
+else:
+    des = DES.new(key, DES.MODE_ECB)
+    padded_pt = pad(pt, DES.block_size)
+    encrypted_text = des.encrypt(padded_pt)
+    print("Encrypted Text:", encrypted_text)
+    
+    decrypted_text = des.decrypt(encrypted_text)
+    unpadded_decrypted_text = unpad(decrypted_text, DES.block_size)
+    print("Decrypted Text:", unpadded_decrypted_text.decode('utf-8'))
+

@@ -1,0 +1,27 @@
+def encryption(pt,key): 
+    lst1='abcdefghijklmnopqrstuvwxyz' 
+    en='' 
+    for i in pt.lower(): 
+        k=(lst1.index(i)+key)%26 
+        en+=lst1[k] 
+        print("Encrypted text: ",en) 
+pt=input("Enter any text: ") 
+try: 
+    key=int(input("Enter a key or Press enter for default value 3: ")) 
+except ValueError: 
+    key = 3 
+encryption(pt,key) 
+ 
+def decryption(pt,key): 
+    list2='abcdefghijklmnopqrstuvwxyz' 
+    de = '' 
+    for i in pt.lower(): 
+        k1=(list2.index(i)-key)%26 
+        de+=list2[k1] 
+        print("Decrypted Text : ",de) 
+pt=input("Enter Encrypted Text : ") 
+try: 
+    key=int(input("Enter a key or Press enter for default value 3: ")) 
+except ValueError: 
+    key = 3 
+decryption(pt,key) 

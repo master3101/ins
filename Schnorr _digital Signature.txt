@@ -1,0 +1,20 @@
+from ecdsa import SigningKey, SECP256k1 
+from hashlib import sha256 
+# Generate a private key (SigningKey) and derive the public key (VerifyingKey) 
+prk = SigningKey.generate(curve=SECP256k1) 
+puk = prk.get_verifying_key() 
+# Message to be signed 
+msg = b"this msg is signed using Schnorr algorithm" 
+# Hash the message 
+msg_hash = sha256(msg).digest() 
+# Sign the hashed message 
+sign = prk.sign(msg_hash) 
+# Verify the signature 
+is_valid = puk.verify(sign, msg_hash) 
+# Print results 
+print("Message:", msg) 
+print("Public Key (compressed):", 
+puk.to_string("compressed").hex()) 
+print("Signature:", sign.hex()) 
+print("Signature is valid:", is_valid)
+

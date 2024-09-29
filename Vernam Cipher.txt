@@ -1,0 +1,29 @@
+def vernam_encrypt(pt, key):
+    alpha = "abcdefghijklmnopqrstuvwxyz"
+    pt = pt.replace(" ", "").lower()  
+    key = key.lower()
+    en = ""
+    for i in range(len(pt)):
+        c = (alpha.index(pt[i]) ^ alpha.index(key[i])) % 26
+        en += alpha[c]
+    return en
+
+def vernam_decrypt(ct, key):
+    alpha = "abcdefghijklmnopqrstuvwxyz"
+    key = key.lower()
+    de = ""
+    for i in range(len(ct)):
+        c = (alpha.index(ct[i]) ^ alpha.index(key[i])) % 26 
+        de += alpha[c]
+    return de
+
+pt = input("Enter Plain Text: ").lower()
+key = input("Enter Key: ").lower()
+if len(pt) == len(key):
+    ct = vernam_encrypt(pt, key)
+    print("Encrypted Text: ", ct)
+    
+    de = vernam_decrypt(ct, key)
+    print("Decrypted Text: ", de)
+else:
+    print("Key should be of the same length as Plain Text!")

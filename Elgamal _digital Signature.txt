@@ -1,0 +1,40 @@
+from Crypto.Random import get_random_bytes 
+from Crypto.Util.number import getPrime, inverse, GCD 
+ 
+# Generate ElGamal keys (public and private) 
+def generate_elgamal_keys(bits=256): 
+    p = getPrime(bits) 
+    g = 2
+    x = int.from_bytes(get_random_bytes(bits // 8), byteorder='big') % (p-1)  
+    y = pow(g, x, p)  # Public key part 
+    return (p, g, y), (p, g, x) 
+ 
+# Encrypt a message using ElGamal public key 
+def encrypt_message_elgamal(plain_text, public_key): 
+    p, g, y = public_key 
+    k = int.from_bytes(get_random_bytes(16), byteorder='big') % (p-1) 
+    c1 = pow(g, k, p) 
+    c2 = (pow(y, k, p) * int.from_bytes(plain_text.encode('utf8'), byteorder='big')) % p 
+    return (c1, c2)
+
+
+
+def decrypt_message_elgamal(ciphertext, private_key): 
+    p, g, x = private_key 
+    c1, c2 = ciphertext 
+    s = pow(c1, x, p) 
+    m = (c2 * inverse(s, p)) % p
+    return m.to_bytes((m.bit_length() + 7) // 8, 
+byteorder='big').decode('utf-8') 
+ 
+plain_text = input("Enter plain text: ") 
+
+public_key, private_key = generate_elgamal_keys(256) 
+print("\nPublic Key:", public_key) 
+print("Private Key:", private_key) 
+
+ciphertext = encrypt_message_elgamal(plain_text, public_key) 
+print("\nEncrypted:", ciphertext) 
+
+decrypted_text = decrypt_message_elgamal(ciphertext, private_key) 
+print("\nDecrypted:", decrypted_text)
